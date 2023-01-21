@@ -17,7 +17,7 @@ procedure menu is
     type tableau_unbouded is array (0..9) of unbounded_String ;
     nombre_parametre : Integer;
     parametres : tableau_unbouded;
-    arbre_actuel : T_Arbre;
+    arbre_actuel : P_arbre.arb_nr;
     taille_ficier : Integer;
 
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -107,8 +107,12 @@ begin
             end if;
         elsif parametres(0) = "size" then
             if (nombre_parametre = 2 and parametres(1) /= "" and parametres(2) /= "") then
-                taille_ficier := Integer'Value (To_String (parametres(2)));
-                modifier_taille_fichier(arbre_actuel, parametres(1), taille_ficier);
+                if Integer'Value (To_String(parametres(2))) < 5 then
+                    put_line("La taille d'un fichier doit etre minimum de 5");
+                else
+                    taille_ficier := Integer'Value (To_String (parametres(2)));
+                    modifier_taille_fichier(arbre_actuel, parametres(1), taille_ficier);
+                end if;
             else
                 put_line("Nombre de parametres incorrect, la commande correcte est 'size |destination|[nom_fichier] [taille_fichier]'");
             end if;
@@ -137,7 +141,7 @@ begin
                 put_line("Commande incorrecte, la commande correcte est 'ls |destination|' ou 'ls -r |destination|'");
             end if;
         elsif parametres(0) = "rm" then
-            if (nombre_parametre = 1 and parametres(1) /= "") then
+            if (nombre_parametre = 1 and parametres(1) /= "" and parametres(1) /= "-r") then
                 supprimer_repertoire(arbre_actuel, parametres(1), true);
             elsif (nombre_parametre = 2 and parametres(1) = "-r" and parametres(2) /= "") then
                 supprimer_repertoire(arbre_actuel, parametres(2), false);
