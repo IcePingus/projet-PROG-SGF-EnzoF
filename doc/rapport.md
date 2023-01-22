@@ -43,7 +43,7 @@ Pour construire notre SGF, nous allons donc implémenter un arbre de répertoire
 
 Nous avons choisis de mettre en œuvre une architecture MVC (Modèle Vue Contrôleur).
 
-[Menu](/IcePingus/projet-PROG-SGF-EnzoF/blob/main/src/menu.adb) correspond à la vue. C'est l'interface qui formule la volonté de l'utilisateur et la transmet au contrôleur.
+[Menu](../../src/menu.adb) correspond à la vue. C'est l'interface qui formule la volonté de l'utilisateur et la transmet au contrôleur.
 
 Le contrôleur, c'est l'ensemble des fonctions et procédures du [paquet sgf](IcePingusprojet-PROG-SGF-EnzoFblobmainsrcsgf.adb). Elles sont appelées par la vue avec les paramètres de l'instruction. Il faut aussi spécifier sur quel objet du modèle on souhaite effectuer l'instruction.  
 Le contrôleur applique donc une instruction donnée, sur un objet donné.
