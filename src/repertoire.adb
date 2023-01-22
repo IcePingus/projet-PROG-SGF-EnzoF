@@ -1,3 +1,9 @@
+---------------------------------------------------------------------------------------------
+-- Nom du fichier : repertoire.adb
+-- Fonction       : Modèle Répertoire (repertoire)
+-- Auteur         : Furriel Enzo
+---------------------------------------------------------------------------------------------
+
 with text_io;use text_io;
 package body repertoire is
 
@@ -20,11 +26,5 @@ package body repertoire is
     begin
         return repertoire.estFichier;
     end;
-
-    procedure Rep_Set_Taille(repertoire : in out T_Repertoire; taille : in Integer) is
-    begin
-        repertoire.taille := taille;
-    end Rep_Set_Taille;
-
 
 end repertoire;

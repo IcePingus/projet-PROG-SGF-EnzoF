@@ -1,3 +1,9 @@
+---------------------------------------------------------------------------------------------
+-- Nom du fichier : test_sgf.adb
+-- Fonction       : Fichier de test sur sgf
+-- Auteur         : Furriel Enzo
+---------------------------------------------------------------------------------------------
+
 -- import du package sgf
 with sgf; use sgf;
 with repertoire; use repertoire;
@@ -14,7 +20,6 @@ with Ada.Text_IO.Unbounded_IO; use Ada.Text_IO.Unbounded_IO;
 
 procedure test_sgf is
 
-    
     use P_arbre;
 
     arbre_actuel : P_arbre.arb_nr;

@@ -1,3 +1,9 @@
+---------------------------------------------------------------------------------------------
+-- Nom du fichier : arbre_nr.adb
+-- Fonction       : Corps d'un composant de manipulation des arbres à n branches (arbre nr)
+-- Auteur         : Furriel Enzo
+---------------------------------------------------------------------------------------------
+
 with text_io;use text_io;
 package body arbre_nr is
 
@@ -48,17 +54,7 @@ package body arbre_nr is
          return arbre.val;
       end if;
    end;
-
-   ---------------
-   -- Consultation
-   ---------------
             
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-   ---- nom : An_Vide
-   ---- sémantique : détecte si un arbre est vide ou non
-   ---- type-retour : boolean (arbre vide ou non)
-   ---- paramètres: arbre in arb_nr
-   --------------------------------------------------------------------
    function An_Vide(arbre : in arb_nr) return boolean is
    begin
 
@@ -66,13 +62,6 @@ package body arbre_nr is
 
    end An_Vide;
 
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-   ---- nom : An_Fils 
-   ---- sémantique : retourne l'arbre n-ième fils d'un arbre
-   ---- paramètres : arbre in arb_nr ; numero_fils in integer : le n-ième fils
-   ---- type-retour : arb_nr (l'arbre fils recherché
-   ---- post-conditions: si l'arbre est vide, on leve l'exception arbre_vide ; si le nième fils n'existe pas, on leve l'exception parente_vide
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
    function An_Fils(arbre : in arb_nr; numero_fils : in integer) return arb_nr is
    arbre_courant : arb_nr;
 
@@ -91,12 +80,6 @@ package body arbre_nr is
       when constraint_error => raise parente_vide;
    end An_Fils;
 
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-   ---- fonction An_Nombre_Fils: retourne le nombre de fils au premier niveau d'un arbre
-   ---- paramètres: arbre in arb_nr
-   ---- type-retour : integer (nombre de fils) 
-   ---- post-conditions: si l'arbre est vide, on leve l'exception arbre_vide
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
    function An_Nombre_Fils(arbre : in arb_nr) return integer is
 
    nombre_fils : integer;
@@ -124,12 +107,6 @@ package body arbre_nr is
    -- Modification   
    ----------------  
 
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-   ---- nom : An_Inserer_Fils
-   ---- sémantique : insère un arbre sans frère en position de premier fils d'un arbre a. L'ancien fils de a devient le premier frère de l'arbre inséré
-   ---- paramètres: arbre in out arb_nr (arbre de départ) ; arbre_fils in out arb_nr (arbre à insérer) 
-   ---- post-conditions: si l'arbre est vide, on lève l'exception arbre_vide
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
    procedure An_Inserer_Fils(arbre : in out arb_nr ; arbre_fils : in out arb_nr ) is
    begin
       if An_Vide(arbre) then
@@ -152,14 +129,7 @@ package body arbre_nr is
       end if;
    end An_Inserer_Fils;
 
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-   ---- nom : An_Supprimer_Fils
-   ---- sémantique : supprime le n-ième fils d'un arbre a : dans le cas où l'on supprime le premier fils de a, le premier frère du fils supprimé devient le fils de a
-   ---- paramètres: arbre in out arb_nr ; numero_fils in integer (numéro du fils à supprimer)
-   ---- post-conditions: si l'arbre est vide, on lève l'exception arbre_vide
-   -----------------------------------------------------------------------------------------------------------------------------------------------------------------
    procedure An_Supprimer_Fils(arbre : in out arb_nr ; numero_fils : in integer) is
-
    -- arbres sauvegardés: précédant et suivant le fils
    arbre_suivant : arb_nr; 
    arbre_precedent : arb_nr;

@@ -1,12 +1,12 @@
+---------------------------------------------------------------------------------------------
+-- Nom du fichier : sgf.adb
+-- Fonction       : Corps d'un composant de Système de Gestion de Fichiers (sgf)
+-- Auteur         : Furriel Enzo
+---------------------------------------------------------------------------------------------
+
 with text_io;use text_io;
 package body sgf is
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : rechercher_par_nom
-    ---- sémantique : cherche si un répertoire 'nom_repertoire' existe dans le répertoire courant
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (répertoire courant) ; nom_repertoire unbounded_String : nom du répertoire répertoire recherché ; est_fichier boolean : le répertoire recherché est un fichier ou non
-    ---- type-retour : integer (index du répertoire recherché dans l'arbre actuel)
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     function rechercher_par_nom(arbre : arb_nr; nom_repertoire : unbounded_String; est_fichier : boolean) return Integer is
         arbreTemp : arb_nr;
         compteur : Integer := 1;
@@ -31,12 +31,6 @@ package body sgf is
         end if;
     end;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : recuperer_nom_repertoire
-    ---- sémantique : permet de récupérer à partir de la 'destination_repertoire' le nom d'un répertoire (récupère le dernier paramètre délimité des '/' (ne vérifie pas si le répertoire existe ou non
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (répertoire courant) ; destination_repertoire unbounded_String : destination du répertoire recherché
-    ---- type-retour : unbounded_String (nom du répertoire recherché à partir de destination_repertoire (dernière délimitation du '/'))
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     function recuperer_nom_repertoire(arbre : arb_nr; destination_repertoire : unbounded_String) return unbounded_String is
     nombre_parametre : Integer;
     parametres : tableau_unbounded;
@@ -73,13 +67,6 @@ package body sgf is
         return parametres(nombre_parametre);
     end;
 
-
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : verifier_destination
-    ---- sémantique : permet de récupérer à partir de la 'destination_repertoire' le nom d'un répertoire (récupère le dernier paramètre délimité des '/' (ne vérifie pas si le répertoire existe ou non
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (répertoire courant) ; destination_repertoire unbounded_String : destination du répertoire recherché ; supprimer_dernier_mot_cle Boolean : supprimer ou non la dernière délimitation
-    ---- type-retour : arb_nr (arbre correspondant à la destination de 'destination_repertoire')
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     function verifier_destination(arbre : arb_nr; destination_repertoire : unbounded_String; supprimer_dernier_mot_cle : boolean) return arb_nr is
     position_repertoire : Integer;
     arbre_temp : arb_nr;
@@ -159,11 +146,6 @@ package body sgf is
         return arbre_temp;
     end;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : initialisation_sgf
-    ---- sémantique : permet d'initialiser un sgf (start ou reset)
-    ---- parametres : un_arbre arb_nr : un arbre de T_Repertoire (arbre de départ du sgf)
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure initialisation_sgf(un_arbre : OUT arb_nr) is
     un_repertoire : T_Repertoire;
    
@@ -173,11 +155,6 @@ package body sgf is
         un_arbre := new noeud'(un_repertoire, null, null, null);
     end initialisation_sgf;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : repertoire_courant
-    ---- sémantique : afficher le répertoire courant (commande pwd)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant)
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure repertoire_courant(arbre : arb_nr) is
     pwd : unbounded_string;
     arbre_temp : arb_nr;
@@ -192,11 +169,6 @@ package body sgf is
         put_line(pwd);
     end repertoire_courant;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : creer_repertoire
-    ---- sémantique : crée un répertoire à la destination 'destination_repertoire' (commande touch et mkdir)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_repertoire unbounded_String : destination du répertoire saisie ; taille Natural : taille du nouveau répertoire ; droits Natural : droits du nouveau répertoire ; estFichier : le nouveau répertoire est un fichier ou non (=dossier)
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure creer_repertoire(arbre : arb_nr; destination_repertoire : unbounded_string; taille : Natural; droits : Natural; estFichier : boolean) is
     
     arbre_pere : arb_nr;
@@ -286,11 +258,6 @@ package body sgf is
         when fichier_non_existant => put_line("Erreur : Le fichier '"& nom_repertoire &"' n'existe pas dans le dossier " & Rep_Get_nom(An_Get_Valeur(arbre_pere)));
     end modifier_taille_fichier;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : changer_direction_repertoire
-    ---- sémantique : permet de se déplacer dans 'destination_repertoire' (commande cd)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_repertoire unbounded_String : destination du répertoire saisie
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure changer_direction_repertoire(arbre : IN OUT arb_nr; destination_repertoire : unbounded_String) is
     arbre_temp : arb_nr;
 
@@ -306,11 +273,6 @@ package body sgf is
         when erreur_chemin => put_line("Erreur : Le chemin specifie n'existe pas !") ; 
     end changer_direction_repertoire;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : afficher_contenu_repertoire
-    ---- sémantique : permet d'afficher le contenu d'un répertoire à la destination 'destination_dossier' (commande ls)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_dossier unbounded_String : destination du dossier saisie ; repertoire_courant boolean : recherche faite sur le répertoire courant ou non
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure afficher_contenu_repertoire(arbre : arb_nr; destination_dossier : unbounded_String; repertoire_courant : boolean) is
     arbreTemp : arb_nr;
     mise_en_forme : Natural;    
@@ -358,11 +320,6 @@ package body sgf is
         when erreur_chemin => put_line("Erreur : Le chemin specifie n'existe pas !") ; 
     end afficher_contenu_repertoire;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : afficher_tous_les_repertoires
-    ---- sémantique : permet d'afficher le contenu du répertoire et de tous ses sous-répertoires à la destination 'destination_dossier' (commande ls -r)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_dossier unbounded_String : destination du dossier saisie ; repertoire_courant boolean : recherche faite sur le répertoire courant ou non
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure afficher_tous_les_repertoires(arbre: in arb_nr;  destination_dossier : unbounded_String; repertoire_courant : boolean) is
         arbre_temp: arb_nr;
         nbEspaces: Integer := 0;
@@ -411,11 +368,6 @@ package body sgf is
         when erreur_chemin => put_line("Erreur : Le chemin specifie n'existe pas !") ; 
     end afficher_tous_les_repertoires;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : supprimer_repertoire
-    ---- sémantique : permet de supprimer un répertoire à la destination 'destination_repertoire' (commande rm ou rm -r)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_repertoire unbounded_String : destination du répertoire saisie ; estFichier : le nouveau répertoire est un fichier ou non (=dossier)
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure supprimer_repertoire(arbre : arb_nr; destination_repertoire : unbounded_String; estFichier : boolean) is
     arbre_pere : arb_nr;
     verification_arbre : arb_nr; 
@@ -469,11 +421,6 @@ package body sgf is
         when erreur_suppression_dossier => put_line("Erreur : Impossible de supprimer un dossier dans lequel vous etes actuellement");
     end supprimer_repertoire;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : deplacement_copie_fichier
-    ---- sémantique : permet de copier ou déplacer un fichier de la destination 'destination_source' à la destination 'destination cible' (commande cp ou mv)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_source unbounded_String : destination du répertoire source ; destination_cible unbounded_String : destination du répertoire cible ; déplacement Boolean (est-ce un déplacement ou une copie)
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure deplacement_copie_fichier(arbre : arb_nr; destination_source : unbounded_String; destination_cible : unbounded_String; deplacement : boolean) is
     arbre_source : arb_nr;
     arbre_cible : arb_nr; 
@@ -548,11 +495,6 @@ package body sgf is
         when fichier_non_existant => put_line("OOOOOOOOOOOOOOLe fichier " & nom_repertoire & " n'existe pas dans le dossier " & Rep_Get_Nom(An_Get_Valeur(arbre_source)));
     end deplacement_copie_fichier;
 
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ---- nom : archiver_dossier
-    ---- sémantique : permet d'archiver des dossiers et donc de créer un fichier compressé de ce dossier (commande tar)
-    ---- parametres : arbre arb_nr : arbre de T_Repertoire (repertoire courant) ; destination_repertoire unbounded_String : destination du répertoire
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     procedure archiver_dossier(arbre : arb_nr; destination_repertoire : unbounded_string) is
     arbre_pere : arb_nr;
     nom_repertoire : Unbounded_String;
@@ -595,5 +537,5 @@ package body sgf is
         when fichier_deja_existant => put_line("Le fichier " & nom_repertoire &" existe deja dans le repertoire");
         when dossier_non_existant => put_line("Le dossier " & nom_repertoire & " n'existe pas dans le dossier");
     end;
-    
+
 end sgf;

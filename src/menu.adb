@@ -1,3 +1,9 @@
+---------------------------------------------------------------------------------------------
+-- Nom du fichier : menu.adb
+-- Fonction       : Vue correspondant au menu utilisateur (terminal)
+-- Auteur         : Furriel Enzo
+---------------------------------------------------------------------------------------------
+
 -- import du package sgf
 with sgf; use sgf;
 with repertoire; use repertoire;
@@ -64,7 +70,6 @@ procedure menu is
 
 begin
     creer_sgf;
-
     
     while (commande_saisie /= "quit") loop
         new_line;
