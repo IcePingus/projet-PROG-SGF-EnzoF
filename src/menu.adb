@@ -18,13 +18,18 @@ with Ada.Text_IO.Unbounded_IO; use Ada.Text_IO.Unbounded_IO;
 
 procedure menu is
 
+    -- commande saisie par l'utilisateur
     commande_saisie : unbounded_string;
     indice_caractere : Integer;
-    type tableau_unbouded is array (0..9) of unbounded_String ;
+    -- tableau de chaîne de caractères
+    type tableau_unbouded is array (0..9) of unbounded_String;
+    -- nombre paramètres pour le parser
     nombre_parametre : Integer;
+    -- un tableau de chaîne de caractères
     parametres : tableau_unbouded;
+    -- arbre représentant le répertoire courant
     arbre_actuel : P_arbre.arb_nr;
-    taille_ficier : Integer;
+    taille_fichier : Integer;
 
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     ---- nom : creer_sgf
@@ -37,6 +42,7 @@ procedure menu is
         Put_Line("Vous pouvez creer un SGF en ecrivant start :");
         get_line(parametres_saisie);
         if (parametres_saisie = "start") then
+            -- initialisation du sgf
             initialisation_sgf(arbre_actuel);
         end if;
         end loop;
@@ -74,23 +80,35 @@ begin
     while (commande_saisie /= "quit") loop
         new_line;
         put("> ");
+        -- récupération de la saisie clavier
         get_line(commande_saisie);
+        -- PARSER de la saisie clavier pour délimiter les espaces
+        -- boucle pour initialiser le tableau de unbouded string qui permettra de récupérer les chaînes de caractères entre les espaces
         for i in 0..9 loop
             parametres(i) := To_Unbounded_String("");
         end loop;
 
+        -- indice_caractere fait référence à l'indice du caractère que nous parcourons pour vérifier s'il y a un espace
+        -- nombre_parametres récupère le nombre de paramètres après avoir délimiter les espaces, on commaence au parametre 0
         indice_caractere := 1;
         nombre_parametre := 0;
+
+        -- boucle permettant de délimiter les espaces
         while (indice_caractere <= Length(commande_saisie)) loop
             if (Element(commande_saisie, indice_caractere) = ' ') then
+                -- si un espace est trouvé le nombre de paramètres est incrémenté
                 nombre_parametre := nombre_parametre + 1;
             else
+                -- sinon on ajoute la lettre à la unbounded string placé à l'indice paramètres(nombre_parametres)
                 parametres(nombre_parametre) := parametres(nombre_parametre) & Element(commande_saisie, indice_caractere);
             end if;
+            -- incrémenter l'indice pour faire la vérification au prochain caractère
             indice_caractere := indice_caractere + 1;
         end loop;
 
-        
+        -- vérifier le premier paramètres (le premier argument de la commande saisie par l'utilisateur)
+        -- vérifier à chaque fois si le nombre de paramètres est cohérent par rapport à la commande écrite sinon signaler à l'utilisateur comment mieux écrire la commande
+        -- si la commande est correcte : appel à des fonctions du contrôleur SGF permettant de faire les actions souhaitées par l'utilisateur
         if parametres(0) = "reset" then
             if (nombre_parametre = 0) then
                 initialisation_sgf(arbre_actuel);
@@ -115,8 +133,8 @@ begin
                 if Integer'Value (To_String(parametres(2))) < 5 then
                     put_line("La taille d'un fichier doit etre minimum de 5");
                 else
-                    taille_ficier := Integer'Value (To_String (parametres(2)));
-                    modifier_taille_fichier(arbre_actuel, parametres(1), taille_ficier);
+                    taille_fichier := Integer'Value (To_String (parametres(2)));
+                    modifier_taille_fichier(arbre_actuel, parametres(1), taille_fichier);
                 end if;
             else
                 put_line("Nombre de parametres incorrect, la commande correcte est 'size |destination|[nom_fichier] [taille_fichier]'");

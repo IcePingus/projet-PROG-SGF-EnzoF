@@ -12,11 +12,14 @@ package body sgf is
         compteur : Integer := 1;
     begin
         arbreTemp := arbre;
+        -- vérifier si l'arbre a au moins un fils
         if (An_Get_PremierFils(arbreTemp) /= null) then
             arbreTemp := An_Get_PremierFils(arbreTemp);
+            -- vérifier si le nom du répertoire est le même que le nom du répertoire du premier fils
             if (Rep_Get_Nom(An_Get_Valeur(arbreTemp)) = nom_repertoire and Rep_Get_estFichier(An_Get_Valeur(arbreTemp)) = est_fichier) then
                 return 1;
             else
+                -- boucle sur les frères et vérifier si le nom du répertoire est le même que celui d'un de ses frères
                 while (An_Get_Frere(arbreTemp) /= null) loop
                     arbreTemp := An_Get_Frere(arbreTemp);
                     compteur := compteur +1;
@@ -161,10 +164,13 @@ package body sgf is
     begin
         arbre_temp := arbre;
         pwd := Rep_Get_Nom(An_Get_Valeur(arbre_temp));
+        -- afficher les noms des répertoires père et concaténer en délimitant par un "/"
         while (An_Get_Pere(arbre_temp) /= null) loop
             arbre_temp := An_Get_Pere(arbre_temp);
+            -- concaténation
             Set_Unbounded_String(pwd, to_String(Rep_Get_Nom(An_Get_Valeur(arbre_temp))) & "/" & to_String(pwd));
         end loop;
+        -- concaténation
         Set_Unbounded_String(pwd, "/" & to_String(pwd));
         put_line(pwd);
     end repertoire_courant;
@@ -177,12 +183,16 @@ package body sgf is
     nom_repertoire : Unbounded_String;
 
     begin
-
+        -- vérifier si la destination saisie par l'utilisateur existe
         arbre_pere := verifier_destination(arbre, destination_repertoire, true);
         if arbre_pere /= null then
+            -- récupérer le nom du répertoire saisi par l'utilisateur
             nom_repertoire := recuperer_nom_repertoire(arbre, destination_repertoire);
+            -- vérifier que le répertoire nom_repertoire n'existe pas dans la destination souhaité par l'utilisateur
             if (rechercher_par_nom(arbre_pere, nom_repertoire, estFichier) = 0) then
+                -- vérifier si l'ajout du repertoire n'aura pas d'incidence sur la taille mémoire maximale
                 if taille_actuel + taille < 1000000000 then
+                    -- création du répertoire et ajout de l'arbre fils à la bonne destination
                     un_repertoire := (nom_repertoire, 0, droits, estFichier);
                     arbre_nouveau_repertoire := new noeud'(un_repertoire, null, null, arbre_pere);
                     An_Inserer_Fils(arbre_pere, arbre_nouveau_repertoire);
@@ -222,14 +232,19 @@ package body sgf is
     ancienne_taille : Natural;
     comparaison_taille : Integer;
     begin
+        -- vérifier que la taille est positive ou nulle
         if taille < 0 then
             raise taille_negative;
         end if;
+        -- vérifier la destination
         arbre_pere := verifier_destination(arbre, destination_repertoire, true);
         if arbre_pere /= null then
+            -- récupérer nom du répertoire de destination_repertoire
             nom_repertoire := recuperer_nom_repertoire(arbre, destination_repertoire);
+            -- vérifier si le répertoire existe, si oui récupérer sa position
             position_repertoire := rechercher_par_nom(arbre_pere, nom_repertoire, true);
             if position_repertoire /= 0 then
+                -- stocker l'ancienne taille, changer la taille de la mémoire disque
                 ancienne_taille := Rep_Get_Taille(An_Get_Valeur(An_Fils(arbre_pere, position_repertoire)));
                 comparaison_taille := taille - ancienne_taille;
                 arbre_temp := arbre_pere;
@@ -262,9 +277,11 @@ package body sgf is
     arbre_temp : arb_nr;
 
     begin
+        -- vérifier la destination
         arbre_temp := verifier_destination(arbre, destination_repertoire, false);
 
         if arbre_temp /= null then
+            -- changer la valeur de arbre par l'arbre avec la bonne destination
             arbre := arbre_temp;
         else
             raise erreur_chemin;
@@ -279,17 +296,20 @@ package body sgf is
     arbre_temp : arb_nr;
 
     begin
+        -- si il ne s'agit pas du répertoire courant et que la destination_repertoire a été renseigné et n'est pas vide alors arbre à afficher et différent que arbre actuel sinon afficher arbre
         if repertoire_courant = false and destination_dossier /= "" then
             arbre_temp := verifier_destination(arbre, destination_dossier, false);
         else
             arbre_temp := arbre;
         end if;
 
+        -- affichage du premier fils
         if arbre_temp /= null then
             if (An_Get_PremierFils(arbre_temp) /= null) then      
                 put_line("Name                    Length           Rights          File");
                 put_line("===============================================================");
                 arbreTemp := An_Get_PremierFils(arbre_temp);
+                -- mise_en_forme permet de mettre en forme pour que l'affichage se fasse en colonne indépendamment du nom du répertoire
                 mise_en_forme := 25 - length(Rep_Get_Nom(An_Get_Valeur(arbreTemp)));
                 put(Rep_Get_Nom(An_Get_Valeur(arbreTemp))); put(mise_en_forme *" "); put(Integer'image(Rep_Get_Taille(An_Get_Valeur(arbreTemp)))); put("             "); put(Integer'image(Rep_Get_Droits(An_Get_Valeur(arbreTemp))));put("           ");
                 if(Rep_Get_estFichier(An_Get_Valeur(arbreTemp)) = true) then
@@ -297,6 +317,7 @@ package body sgf is
                 else
                     put("Dossier");
                 end if;
+                -- affichage de tous les frères du premier fils
                 while (An_Get_Frere(arbreTemp) /= null) loop
                     new_line;
                     arbreTemp := An_Get_Frere(arbreTemp);
@@ -376,16 +397,22 @@ package body sgf is
     taille_repertoire : Integer;
     begin
 
+        -- vérifier la destination
         arbre_pere := verifier_destination(arbre, destination_repertoire, true);
         if arbre_pere /= null then
+            -- récupérer le nom_repertoire de destination_repertoire
             nom_repertoire := recuperer_nom_repertoire(arbre, destination_repertoire);
+            -- vérifier si le répertoire de nom nom_repertoire existe et si oui retourner sa position
             position_repertoire := rechercher_par_nom(arbre_pere, nom_repertoire, estFichier);
             if position_repertoire /= 0 then
+                -- vérifier si le repertoire à supprimer et un fichier ou non
                 if (estFichier = true) then
+                    -- appel de la procédure pour modifier la taille à 0 puis supprimer le fichier
                     modifier_taille_fichier(arbre, destination_repertoire, 0);
                     An_Supprimer_Fils(arbre_pere, position_repertoire);
                     put_line("Le fichier "& nom_repertoire &" a ete supprime avec succes");
                 else
+                    -- verification_arbre permet de vérifier si l'arbre actuel où se trouve l'utilisateur n'est pas contenu dans l'arbre que l'on cherche à supprimer (si oui => lève l'exception : erreur_suppression_dossier)
                     verification_arbre := arbre;
                     while (An_Get_Pere(verification_arbre) /= null) loop
                         if verification_arbre = An_Fils(arbre_pere, position_repertoire) then
@@ -393,6 +420,7 @@ package body sgf is
                         end if;
                         verification_arbre := An_Get_Pere(verification_arbre);
                     end loop;
+                    -- récupérer la taille du dossier et modifier la taille du répertoire père qui le contient
                     taille_repertoire := An_Fils(arbre_pere, position_repertoire).val.taille;
                     verification_arbre := arbre_pere;
                     verification_arbre.all.val.taille := verification_arbre.all.val.taille - taille_repertoire;
@@ -400,10 +428,12 @@ package body sgf is
                         verification_arbre := An_Get_Pere(verification_arbre);
                         verification_arbre.all.val.taille := verification_arbre.all.val.taille - taille_repertoire;
                     end loop;
+                    -- supprimer le dossier
                     An_Supprimer_Fils(arbre_pere, position_repertoire);
                     put_line("Le dossier "& nom_repertoire &" a ete supprime avec succes");
                 end if;
             else
+                -- exceptions si le repertoire n'existe pas
                 if (estFichier = true) then
                     raise fichier_non_existant;
                 else
@@ -436,6 +466,7 @@ package body sgf is
         indice := 1;
         slash_present := false;
 
+        -- vérifie si un caractère / est présent dans la destination cible, cela peut signifier que l'utilisateur pourrait vouloir renommer le fichier à déplacer ou copié
         while (indice <= Length(destination_cible)) loop
             if (Element(destination_cible, indice) = '/') then
                 slash_present := true;
@@ -444,25 +475,37 @@ package body sgf is
             -- incrémenter l'indice pour faire la vérification au prochain caractère
             indice := indice + 1;
         end loop;
+
+        -- vérifier la destination_source
         arbre_source := verifier_destination(arbre, destination_source, true);
         if arbre_source /= null then
+            -- récupérer le nom du répertoire de destination_source
             nom_repertoire := recuperer_nom_repertoire(arbre, destination_source);
+            -- vérifier si le répertoire de nom nom_repertoire existe et si oui retourner sa position
             position_repertoire := rechercher_par_nom(arbre_source, nom_repertoire, true);
             if position_repertoire /= 0 then
+                -- vérifier la destination de destination_cible
                 arbre_cible := verifier_destination(arbre, destination_cible, false);
+                -- si arbre_cible ne correspond à aucun arbre et qu'un '/' est présent il pourrait s'agir d'une volonté de renommer le fichier, il faut revérifier en supprimant le dernier argument de destination_cible
                 if arbre_cible = null and slash_present = true then
                     arbre_cible := verifier_destination(arbre, destination_cible, true);
                     nom_repertoire := recuperer_nom_repertoire(arbre, destination_cible);
                 end if;
+                -- vérification que arbre_cible existe
                 if arbre_cible /= null then
+                    -- vérifier qu'un fichier de nom_repertoire n'existe pas dans la destination ou nous souhaitons le copier/déplacer
                     if (rechercher_par_nom(arbre_cible, nom_repertoire, true) = 0) then
+                        -- vérification liée à l'espace mémoire maximale du disque
                         if deplacement = false or (deplacement = true and taille_actuel + arbre_source.all.val.taille < 1000000000) then
+                            -- création du répertoire
                             un_repertoire := (nom_repertoire, 0, Rep_Get_Droits(An_Get_Valeur(arbre_source)), true);
                             taille_repertoire := Rep_Get_Taille(An_Get_Valeur(An_fils(arbre_source, position_repertoire)));
+                            -- si c'est un déplacement supprimer le fichier avant de le créer
                             if deplacement = true then
                                 modifier_taille_fichier(arbre, destination_source, 0);
                                 An_Supprimer_Fils(arbre_source, position_repertoire);
                             end if;
+                            -- création du répertoire dans la destination_cible et création de l'arbre
                             arbre_nouveau_repertoire := new noeud'(un_repertoire, null, null, arbre_cible);
                             An_Inserer_Fils(arbre_cible, arbre_nouveau_repertoire);
                             modifier_taille_fichier(arbre_cible, nom_repertoire, taille_repertoire);
@@ -492,7 +535,7 @@ package body sgf is
         when erreur_chemin => put_line("Erreur : Le chemin '" & nom_repertoire & "' n'existe pas !");
         when erreur_taille => put_line("Erreur : Impossible d'executer la commande, plus de place sur le disque dur"); 
         when fichier_deja_existant => put_line("Le fichier " & nom_repertoire &" existe deja dans le repertoire " & Rep_Get_Nom(An_Get_Valeur(arbre_cible)));
-        when fichier_non_existant => put_line("OOOOOOOOOOOOOOLe fichier " & nom_repertoire & " n'existe pas dans le dossier " & Rep_Get_Nom(An_Get_Valeur(arbre_source)));
+        when fichier_non_existant => put_line("Le fichier " & nom_repertoire & " n'existe pas dans le dossier " & Rep_Get_Nom(An_Get_Valeur(arbre_source)));
     end deplacement_copie_fichier;
 
     procedure archiver_dossier(arbre : arb_nr; destination_repertoire : unbounded_string) is
@@ -504,16 +547,25 @@ package body sgf is
     arbre_dossier : arb_nr;
     arbre_nouveau_fichier : arb_nr;
     begin
+        -- vérifier la destination
         arbre_pere := verifier_destination(arbre, destination_repertoire, true);
         if arbre_pere /= null then
+            -- récupérer le nom du répertoire de destination_repertoire
             nom_repertoire := recuperer_nom_repertoire(arbre_pere, destination_repertoire);
+            -- vérifier si 
             position_repertoire_dossier := rechercher_par_nom(arbre_pere, nom_repertoire, false);
+            -- vérifier si le répertoire de nom nom_repertoire existe et si oui retourner sa position
             if position_repertoire_dossier /= 0 then
+                -- concaténation
                 Set_Unbounded_String(nom_repertoire, to_String(nom_repertoire) & ".zip");
+                -- vérifier si le répertoire de nom nom_repertoire (dossier archivé) existe et si oui retourner sa position
                 position_repertoire_fichier := rechercher_par_nom(arbre_pere, nom_repertoire, true);
                 if position_repertoire_fichier = 0 then
+                    -- récupérer l'arbre correspondant au dossier
                     arbre_dossier := An_Fils(arbre_pere, position_repertoire_dossier);
-                    if taille_actuel + arbre_dossier.all.val.taille < 1000000000 then                    
+                    -- vérification liée à la mémoire du disque par rapport à la création de l'archive
+                    if taille_actuel + arbre_dossier.all.val.taille < 1000000000 then
+                        -- création de l'archive compressé et l'ajouter à un arbre   
                         un_repertoire := (nom_repertoire, 0, arbre_dossier.all.val.droits, true);
                         arbre_nouveau_fichier := new noeud'(un_repertoire, null, null, arbre_pere);
                         An_Inserer_Fils(arbre_pere, arbre_nouveau_fichier);
