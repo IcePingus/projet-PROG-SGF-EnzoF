@@ -65,7 +65,36 @@ Nous pensons qu'il est possible de créer chaque commande de manière plus simpl
 ### Rechercher par nom 
 Raffinage 
 
-R1.
+    R0. Comment vérifier si un répertoire du nom saisie par l'utilisateur existe ou non parmi l'un des fils de l'arbre actuel et retourner sa position ou 0 ?
+    R1. Comment R0 ?
+	    A1. Vérifier si un répertoire d'un fils de l'arbre actuel a même nom que celui saisi par l'utilsateur
+	R2. Comment A1 ?
+		A2.1. Vérifier si l'arbre actuel a des fils (si non alors le repertoire n'existe pas)
+		A2.2. Vérifier si le premier fils de l'arbre actuel a le même nom de répertoire 
+		A2.3. Véifier si le frère du premier fils de l'arbre actuel a le même nom de répertoire 
+	R3. Comment A2.1 ?
+		A3. Si Premier fils de arbre_temporaire existe Alors
+				A2.2
+			Sinon
+				Retourne 0
+			Fin Si
+	R4. Comment A2.2 ?
+		A4. arbre_temporaire => premier fils de arbre_temporaire 
+            Si nom_repertoire est égal à nom du répertoire de la valeur de arbre_temporaire Alors
+	            retourne 1
+            Sinon
+	            A2.3
+            Fin Si
+            Retourne 0
+	
+	R5. Comment A2.3 ?
+		A5. Répéter jusqu'à que Frere de arbre_temporaire existe
+                arbre_temporaire => frere de arbre_temporaire 
+                compteur => compteur + 1
+                Si nom_repertoire est égal à nom du répertoire de la valeur de arbre_temporaire Alors
+                   Retourne compteur
+                Fin si
+             Fin répéter
 
 Algorithme 
 
