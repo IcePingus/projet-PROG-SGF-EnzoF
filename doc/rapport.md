@@ -63,7 +63,7 @@ Pour réaliser le système de gestion de fichier, nous avons pensé que trois fo
 Nous pensons qu'il est possible de créer chaque commande de manière plus simplifiée en implémentant ses 3 fonctions, voici les étapes de raffinages qui nous ont conduit aux algorithmes finaux.
 
 ### Rechercher par nom 
-Raffinage 
+**Raffinage** 
 
     R0. Comment vérifier si un répertoire du nom saisie par l'utilisateur existe ou non parmi l'un des fils de l'arbre actuel et retourner sa position ou 0 ?
     R1. Comment R0 ?
@@ -96,7 +96,7 @@ Raffinage
                 Fin si
              Fin répéter
 
-Algorithme 
+**Algorithme**
 
     Paramètres  arbre  arbre nr IN; nom_repertoire  chaines de caractères IN
        arbre_temporaire = arbre
@@ -120,6 +120,8 @@ Algorithme
 ### Récupérer nom répertoire (parser) 
 Il s'agit donc d'un délimiteur de caractères permettant de retourner le dernier élément délimité après un ''.
 
+**Raffinnage**
+
     R0. Comment délimiter les caractères '/' de telle sorte à récupérer le dernier argument d'une chaîne de caractères ?
     R1. Comment R0 ?
 	    A1.1 Initialiser un tableau de chaîne de caractères
@@ -142,7 +144,7 @@ Il s'agit donc d'un délimiteur de caractères permettant de retourner le dernie
 				ajouter la nouvelle lettre a parametres(nombre parametres)
 			Fin si
 
-Algorithme 
+**Algorithme**
  (parametres étant un tableau de chaines de caractères)
 
     Parametres  destination_repertoire  chaines de caractères IN
@@ -162,7 +164,7 @@ Algorithme
 	Retourner parametres(nombre_parametres)
 
 ### Vérifier destination 
-Raffinage 
+**Raffinage**
 
     R0. Comment vérifier si une destination saisie par l'utilisateur existe et si oui retourner l'arbre correspondant (sinon null) ?
     R1. Comment R0 ?
@@ -200,7 +202,7 @@ Raffinage
 			    Fin Si   
 			Fin Si
 
-Algorithme 
+**Algorithme**
 
     Paramètres  arbre arbre nr IN; destination_repertoire chaine de caractères IN)
     --- PARSER (vu à recuperer nom repertoire)
