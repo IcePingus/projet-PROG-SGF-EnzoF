@@ -16,10 +16,10 @@ Le SGF que nous allons créer devra permettre
 - la suppression d'un répertoire
 - la copie d'un fichier
 - le déplacement d'un fichier
-- créer l'archive d'un dossier
-- lister le contenu d'un dossier
-- afficher le répertoire courant
-- changer de répertoire courant.
+- la création de l'archive d'un dossier
+- de lister le contenu d'un dossier
+- l'affichage du répertoire courant
+- de changer de répertoire courant.
 
 
 Pour créer ce système de fichier, il y a eu trois étapes principales. Tout d'abord, nous avons conçu le projet en menant des choix d'architecture et d'algorithmie. Ensuite, nous avons réalisé le projet et nous dresserons les difficultés rencontrés ainsi que les solutions mises en place. Enfin, nous avons effectué des tests pour valider la pertinence des choix et l'implémentation du code. Nous conclurons avec un bilan technique et personnel sur les apports du projet.
