@@ -120,25 +120,21 @@ Algorithme
 ### Récupérer nom répertoire (parser) 
 Il s'agit donc d'un délimiteur de caractères permettant de retourner le dernier élément délimité après un ''.
 
-Raffinage 
-
     R0. Comment délimiter les caractères '/' de telle sorte à récupérer le dernier argument d'une chaîne de caractères ?
     R1. Comment R0 ?
-	    A1. Initialiser un tableau de chaîne de caractères
-	    A2. Vérifier chaque caractère et délimiter les '/'
+	    A1.1 Initialiser un tableau de chaîne de caractères
+	    A1.2. Vérifier chaque caractère et délimiter les '/'
 	R2. Comment A1 ?
-		A2.1. Pour i allant de 0 à 9 Faire
+		A2. Pour i allant de 0 à 9 Faire
 			       initialiser parametres(i)
 			   Fin Pour
-	R3. Comment A2 ?
+	R3. Comment A1.2 ?
 		A3.1. Parcourir chaque caractère
 		A3.2. Vérifier s'il s'agit d'un '/' si c'est le cas incrémenter le nombre de paramètres (argument), sinon concaténer la chaîne de caractère avec le nouveau caractère en plus dans le tableau de chaine de caractères à l'indice nombre_parametres
 	R4. Comment A3.1 ?
 		A4. Tant que (indice <= longueur(destination_repertoire)) Faire
 		        A3.2
-		Fin Tant que
 	        indice => indice + 1
-		
 	R5. Comment A3.2 ?
 		A5. Si le caractère est un "/" Alors
 				nombre paramètres => nombre paramètres + 1
@@ -167,7 +163,42 @@ Algorithme
 
 ### Vérifier destination 
 Raffinage 
-R1.
+
+    R0. Comment vérifier si une destination saisie par l'utilisateur existe et si oui retourner l'arbre correspondant (sinon null) ?
+    R1. Comment R0 ?
+		A1.1. Parser pour récupérer chaque nom de repertoire saisi par l'utilisateur
+		A1.2. Vérifier si la référence est en absolue ou en relative et se déplacer si elle est en absolue
+		A1.3. Vérifier si chaque paramètres est un répertoire présent dans l'arbre temporaire (arbre temporaire = arbre qui est modifié à chaque argument)
+	R2. Comment A1.1 ?
+		A2.1. Parser (vu à récupérer nom repertoire')
+	R3. Comment A1.2 ?
+		A3. Si le premier caractère de destination_repertoire est un "/"
+		        Tant que Pere de arbre_temp existe Faire
+			        arbre_temp => pere de arbre_temp
+		        Fin Tant que
+	        Fin Si
+    R4. Comment A1.3 ?
+		A4.1. Parcourir les différents arguments
+		A4.2. Vérifier si l'argument parcouru désigne le père ou un dossier du répertoire et se déplacer ou retourner null si le répertoire existe pas
+	R5. Comment A4.1 ?
+		A5. Pour i allant de 0 à nombre_parametres Faire
+				A4.2
+			Fin Pour
+	R6. Comment A4.2 ?
+		A6. Si Parametres(i) est ".." Alors
+			    Si Pere de arbre_temporaire existe Alors
+			         arbre_temporaire => Pere de arbre_temporaire
+			    Sinon
+			         Retourne null
+			    Fin Si
+			Sinon Si Parametres(i) est différent de "." Alors
+				Utiliser rechercher_par_nom pour vérifier si un répertoire de nom Parametres(i) existe
+			    Si le repertoire existe Alors
+			         arbre_temporaire => arbre_temporaire correspondant au fils du répertoire recherché
+			    Sinon
+					Retourne null
+			    Fin Si   
+			Fin Si
 
 Algorithme 
 
