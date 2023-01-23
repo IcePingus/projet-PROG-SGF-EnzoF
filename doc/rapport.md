@@ -151,7 +151,7 @@ Algorithme
 Pour la liste des commandes et son implémentation, nous avons décidé de nous approcher le plus possible des mécanismes du SGF de Linux, les commandes et leurs utilisations se ressemblent beaucoup et l'utilisateur peut écrire les commandes en référence relative ou absolue.
 
 Voici la liste des commandes que le SGF propose à l'utilisateur  
-![Liste des commandes](httpszupimages.netup230357bq.png)
+![Liste des commandes](https://zupimages.net/up/23/03/57bq.png)
 
 Pour en savoir plus sur une fonction, les spécifications et contrat sont décrites dans les commentaires des différentes fonctions.
 
@@ -190,7 +190,7 @@ Arbre possède 7 fonctions à tester dont 4 accesseurs
 
 Nous allons donc créer 3 arbres  arbre1 avec aucun lien familial, arbre2 qui a comme père arbre1 et arbre3 qui a comme premier fils arbre2 et qui a comme frère arbre1. Nous leur associons tous des valeurs différentes et nous vérifions que les valeurs de retour soient bien celles souhaitées par notre jeu d'essai 
 
-![Test accesseurs](httpszupimages.netup2303pbaa.png)
+![Test accesseurs](https://zupimages.net/up/23/03/pbaa.png)
 
 Il existe aussi 3 autres fonctions à tester 
 - `An_Vide(arbre)`  retourne vrai si l'arbre est vide sinon faux
@@ -199,7 +199,7 @@ Il existe aussi 3 autres fonctions à tester
 
 Nous vérifions d'abord si l'arbre3 n'est pas vide et si l'arbre4 est vide. Ensuite on vérifie que le nombre de fils des 3 premiers arbres sont 1 (quand un arbre n'a pas de fils, on retourne 1). On crée arbre4 et arbre5 et on les insère comme fils de arbre1 et on vérifie que le nombre de fils de arbre1 est bien 2 (arbre1 a 2 fils).
 
-![Test arbre](httpszupimages.netup2303v15h.png)
+![Test arbre](https://zupimages.net/up/23/03/v15h.png)
 
 #### Test_SGF 
 
