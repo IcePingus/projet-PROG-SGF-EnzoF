@@ -122,6 +122,28 @@ Il s'agit donc d'un délimiteur de caractères permettant de retourner le dernie
 
 Raffinage 
 
+    R0. Comment délimiter les caractères '/' de telle sorte à récupérer le dernier argument d'une chaîne de caractères ?
+    R1. Comment R0 ?
+	    A1. Initialiser un tableau de chaîne de caractères
+	    A2. Vérifier chaque caractère et délimiter les '/'
+	R2. Comment A1 ?
+		A2.1. Pour i allant de 0 à 9 Faire
+			       initialiser parametres(i)
+			   Fin Pour
+	R3. Comment A2 ?
+		A3.1. Parcourir chaque caractère
+		A3.2. Vérifier s'il s'agit d'un '/' si c'est le cas incrémenter le nombre de paramètres (argument), sinon concaténer la chaîne de caractère avec le nouveau caractère en plus dans le tableau de chaine de caractères à l'indice nombre_parametres
+	R4. Comment A3.1 ?
+		A4. Tant que (indice <= longueur(destination_repertoire)) Faire
+		        A3.2
+	        indice => indice + 1
+	R5. Comment A3.2 ?
+		A5. Si le caractère est un "/" Alors
+				nombre paramètres => nombre paramètres + 1
+			Sinon
+				ajouter la nouvelle lettre a parametres(nombre parametres)
+			Fin si
+
 Algorithme 
  (parametres étant un tableau de chaines de caractères)
 
