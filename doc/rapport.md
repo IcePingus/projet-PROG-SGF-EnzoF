@@ -136,7 +136,9 @@ Raffinage
 	R4. Comment A3.1 ?
 		A4. Tant que (indice <= longueur(destination_repertoire)) Faire
 		        A3.2
+		Fin Tant que
 	        indice => indice + 1
+		
 	R5. Comment A3.2 ?
 		A5. Si le caractère est un "/" Alors
 				nombre paramètres => nombre paramètres + 1
