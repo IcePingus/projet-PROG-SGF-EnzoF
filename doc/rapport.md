@@ -217,7 +217,7 @@ Nous allons tester les fonctions vues précédemment lors de l'étape de raffina
 ### Bilan technique
 
 #### Répartition du temps 
-Nous avions passé environ 50h par personne dans la réalisation du projet.
+Nous avions passé environ 50h dans la réalisation du projet.
 
 En ce qui concerne la répartition du temps, voici des pourcentages permettant d'estimer globalement le temps passé sur chaque partie 
 
