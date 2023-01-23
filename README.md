@@ -7,4 +7,6 @@ Veuillez trouver le rapport en [markdown](/livrables/rapport.md) ou en [pdf](/li
 
 Veuillez trouver le manuel utilisateur pour savoir comment utiliser le programme en [markdown](/doc/manuel.md) ou en [pdf](/doc/manuel.pdf)
 
+Lien du Git : https://github.com/IcePingus/projet-PROG-SGF-EnzoF
+
 Enzo Furriel
